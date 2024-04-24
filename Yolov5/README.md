@@ -31,3 +31,4 @@ pip install -r requirements.txt
     ```
     # weight : 가중치 파일, source : 인덱스 1번째의 카메라, data : 학습 시킨 .yaml 파일
     python3 detect.py --weight dataset/best.pt --source 1 --img 320 --data dataset/data.yaml
+    ```
