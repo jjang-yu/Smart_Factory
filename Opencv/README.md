@@ -5,4 +5,33 @@
 - Opencv (4.9.0 .ver)
 - TensorFlow (2.16.1 .ver)
 
-# 
+# 패키지 설치 명령어
+
+```
+sudo apt-get update
+sudo apt-get install python3-venv
+python3 -m venv opencv-venv
+source opencv-venv/bin/activate
+
+pip install --upgrade pip
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+
+
+sudo apt-get install build-essential cmake pkg-config -y
+sudo apt-get install libjpeg-dev libtiff5-dev libpng-dev -y
+sudo apt-get install libavcodec-dev libavformat-dev libswscale-dev -y
+sudo apt-get install libxvidcore-dev libx264-dev -y
+sudo apt-get install libfontconfig1-dev libcairo2-dev -y
+sudo apt-get install libgdk-pixbuf2.0-dev libpango1.0-dev -y
+sudo apt-get install libgtk2.0-dev libgtk-3-dev -y
+sudo apt-get install libatlas-base-dev gfortran -y
+sudo apt-get install libhdf5-dev libhdf5-serial-dev libhdf5-103 -y
+sudo apt-get install libopenblas-base -y
+sudo apt-get install python3-pyqt5 -y
+sudo apt-get install python3-dev -y
+
+pip install numpy
+pip install opencv-python
+
+pip install tensorflow==2.16.1
+```
