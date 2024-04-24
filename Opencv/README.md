@@ -39,9 +39,9 @@ pip install tensorflow==2.16.1
 
 - ⬇Shape.py 실행
 
-  <img src="https://github.com/jjang-yu/Smart_Factory/assets/160578079/b10f6338-8e8f-44dc-871e-ea057844151b" wedht="150" height="150"/>
+  <img src="https://github.com/jjang-yu/Smart_Factory/assets/160578079/b10f6338-8e8f-44dc-871e-ea057844151b" wedht="250" height="250"/>
 
 - ⬇QR_Decode.py 실행
 
-  <img src="https://github.com/jjang-yu/Smart_Factory/assets/160578079/b49490b0-4165-40ad-8f54-ff5ce42ed103" wedht="150" height="150"/>
+  <img src="https://github.com/jjang-yu/Smart_Factory/assets/160578079/b49490b0-4165-40ad-8f54-ff5ce42ed103" wedht="250" height="250"/>
 
