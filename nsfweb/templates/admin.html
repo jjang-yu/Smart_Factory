@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>내 HMI 디스플레이 - Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+    <header>
+        <!-- user.html에서 사용한 동일한 헤더 구조 -->
+        <div class="title">내 HMI 디스플레이 - Admin</div>
+        <nav>
+            <button onclick="goPage('/');">Home</button>
+            <button onclick="goPage('/user');">User</button>
+        </nav>
+    </header>
+    <div class="device-container">
+        <!-- 서보모터 -->
+        <div class="device disconnected" id="servoR">
+            <div class="device-label">서보모터 R</div>
+        </div>
+        <div class="device disconnected" id="servoB">
+            <div class="device-label">서보모터 B</div>
+        </div>
+        <div class="device disconnected" id="servoG">
+            <div class="device-label">서보모터 G</div>
+        </div>
+        <div class="device disconnected" id="servoY">
+            <div class="device-label">서보모터 Y</div>
+        </div>
+        <!-- 스위치 -->
+        <div class="device disconnected">
+            <div class="device-label" id="switchR">스위치 R</div>
+        </div>
+        <div class="device disconnected">
+            <div class="device-label" id="switchB">스위치 B</div>
+        </div>
+        <div class="device disconnected">
+            <div class="device-label" id="switchG">스위치 G</div>
+        </div>
+        <div class="device disconnected">
+            <div class="device-label" id="switchY">스위치 Y</div>
+        </div>
+        <!-- 컨베이어-->
+        <div class="device disconnected" id="convayorStart">
+            <div class="device-label">컨베이어 S</div>
+        </div>
+        <div class="device disconnected" id="convayorStop">
+            <div class="device-label">컨베이어 E</div>
+        </div>
+        <!-- 적외선 센서 -->
+        <div class="device disconnected" id="lampOn">
+            <div class="device-label">램프 ON</div>
+        </div>
+        <div class="device disconnected" id="lampOff">
+            <div class="device-label">램프 OFF</div>
+        </div>
+        <!-- 로봇 -->
+        <div class="device disconnected" id="robotE">
+            <div class="device-label">로봇 E</div>
+        </div>
+        <div class="device disconnected" id="robotC">
+            <div class="device-label">로봇 C</div>
+        </div>
+        <div class="device disconnected" id="robotI">
+            <div class="device-label">로봇 I</div>
+        </div>
+        <div class="device disconnected" id="robotQ">
+            <div class="device-label">로봇 Q</div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script>
+        const socket = io.connect('http://192.168.1.193:5000');
+	const socketAdmin = io.connect('http://192.168.1.193:5000/admin');
+
+        socketAdmin.on('serial_data', function(data) {
+            console.log(data);
+            const div = document.getElementById(data.message).parentNode;
+                
+            div.classList.remove('disconnected');
+            div.classList.add('connected');
+            
+            // 0.5초 후에 클래스를 다시 'disconnect'로 변경
+            setTimeout(() => {
+                div.classList.remove('connected');
+                div.classList.add('disconnected');
+            }, 500);
+        });
+        
+        document.querySelectorAll('[id^="servo"]').forEach(function(elem) {
+            // 각 요소에 클릭 이벤트 리스너를 추가합니다.
+            elem.addEventListener('click', function(data) {
+		console.log(data);
+
+                this.classList.remove('disconnected');                
+                this.classList.add('connected');
+                socket.emit('send_serial_data', this.id + ":on");
+                
+                setTimeout(() => {
+                    this.classList.remove('connected');
+                    this.classList.add('disconnected');
+	            //socket.emit('send_serial_data', this.id + ":off");
+                }, 1000);
+            });
+        });
+
+        document.querySelectorAll('[id^="convayor"]').forEach(function(elem) {
+            // 각 요소에 클릭 이벤트 리스너를 추가합니다.
+            elem.addEventListener('click', function(data) {
+		console.log(data);
+
+                this.classList.remove('disconnected');                
+                this.classList.add('connected');
+                socket.emit('send_serial_data', this.id);
+                
+                setTimeout(() => {
+                    this.classList.remove('connected');
+                    this.classList.add('disconnected');
+                }, 500);
+            });
+        });
+
+        document.querySelectorAll('[id^="robot"]').forEach(function(elem) {
+            // 각 요소에 클릭 이벤트 리스너를 추가합니다.
+            elem.addEventListener('click', function() {
+
+                this.classList.remove('disconnected');                
+                this.classList.add('connected');
+                socket.emit('send_serial_data', this.id);
+                
+                setTimeout(() => {
+                    this.classList.remove('connected');
+                    this.classList.add('disconnected');
+                }, 500);
+            });
+        });
+
+	document.querySelectorAll('[id^="lamp"]').forEach(function(elem) {
+            // 각 요소에 클릭 이벤트 리스너를 추가합니다.
+            elem.addEventListener('click', function() {
+
+                this.classList.remove('disconnected');                
+                this.classList.add('connected');
+                socket.emit('send_serial_data', this.id);
+                
+                setTimeout(() => {
+                    this.classList.remove('connected');
+                    this.classList.add('disconnected');
+                }, 500);
+            });
+        });
+
+    </script>
+</body>
+</html>

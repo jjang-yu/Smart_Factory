@@ -1,0 +1,126 @@
+body, html {
+    width: 800px;
+    height: 480px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f4f4f4;
+}
+header {
+    height: 80px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.title {
+    font-size: 24px;
+}
+nav button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-left: -30%
+}
+.channel-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.channel-button {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    margin: 0 10px;
+    color: white;
+    font-size: 32px;
+    cursor: pointer;
+    border: none;
+    border-radius: 35px;
+}
+.red { background-color: #dd0000; color: white; }
+.green { background-color: #00dd00; color: white; }
+.blue { background-color: #0000dd; color: white; }
+.yellow { background-color: #dddd00; color: white; }
+.gray { background-color: #808080; color: white; }
+.start-btn:active + .channel-row.button { background-color: #808080; }
+
+
+.value {
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+    border: 1px solid #ddd;
+    margin: 0 10px;
+    display: inline-block;
+    }
+.side-panel {
+    position: absolute;
+    right: 20px;
+    top: 27%; 
+    transform: translateY(-20%);
+    transform: translateX(-40%);
+    text-align: center;
+}
+.start-btn {
+    background-color: #4CAF50;
+    display: block;
+    margin-bottom: 12px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    width: 150px;
+    height: 70px;
+}
+
+
+.pause-btn {
+    background-color: #A87843;
+    display: block;
+    margin-bottom: 12px;
+    padding: 10px 20px;
+    background-color: #A87843;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    width: 150px;
+    height: 70px;
+}
+.finish-btn {
+    background-color: #f44336;
+    display: block;
+    margin-bottom: 12px;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    width: 150px;
+    height: 70px;
+}
+#error-btn {
+    display: block;
+    padding: 10px 20px;
+    background-color: #9e9e9e;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 20px;
+    width: 150px;
+    height: 70px;
+}

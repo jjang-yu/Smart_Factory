@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>내 HMI 디스플레이 - User</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_style.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.3/socket.io.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            const socket = io.connect('http://192.168.1.193:5000');
+	    const socketUser = io.connect('http://192.168.1.193:5000/user');
+	    socketUser.on('update_switch', function(data) {
+		var switchType = data.data;
+                console.log('update switch response : ' + switchType);
+	
+		var goalCount = parseInt($('#goal' + switchType).text());
+		var currentCount = parseInt($('#current' + switchType).text());
+
+		var count = currentCount + 1;
+		$('#current' + switchType).text(count);
+		
+		update_product('Product' + switchType + 'Cnt', count);
+
+		console.log("check : " + checkProcessStop().toString());
+		var checkStop = checkProcessStop();
+		if (checkStop) {
+		    console.log("check : " + checkProcessStop().toString());
+		    $('#finish-btn').click();
+		}
+            });
+	    
+	    socketUser.on('update_error', function(data) {
+		var count = parseInt($('#error-btn').text().replace("오류 수량: ", ""));
+		count += 1;
+		console.log("count : ", count);
+		$('#error-btn').text("오류 수량: " + count);
+	    });
+	
+	    var checkProcessStop = function checkProcessStop() {
+    		var goalRedCount = parseInt($('#goalRed').text());
+    		var goalGreenCount = parseInt($('#goalGreen').text());
+    		var goalBlueCount = parseInt($('#goalBlue').text());
+    		var goalYellowCount = parseInt($('#goalYellow').text());
+
+    		var currentRedCount = parseInt($('#currentRed').text());
+    		var currentGreenCount = parseInt($('#currentGreen').text());
+    		var currentBlueCount = parseInt($('#currentBlue').text());
+    		var currentYellowCount = parseInt($('#currentYellow').text());
+
+    		if (goalRedCount <= currentRedCount &&
+        	    goalGreenCount <= currentGreenCount &&
+        	    goalBlueCount <= currentBlueCount &&
+        	    goalYellowCount <= currentYellowCount) {
+        	
+		    return true;
+    		}
+    		return false;
+	    }
+
+	    var update_product = function(columnName, count) {
+		console.log('update : ' + columnName);
+		
+		const formData = {
+                    columnName: columnName,
+		    count: count,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/update_product",
+                    data: JSON.stringify(formData),
+                    contentType: "application/json",
+                    success: function(response) {
+			console.log('update product success');
+                    },
+                    error: function(error) {
+                        console.error('Error update product:', error);
+                    }
+                });
+            }
+            
+ 
+            var current = {{ current|tojson }};
+            
+            if (current) {
+                if (current.Status == 'S') {
+                    $('.action-btn').prop('disabled', true);
+                    $('.control-btn').prop('disabled', false);
+                }
+                else {
+                    $('.action-btn').prop('disabled', false);
+                    $('.control-btn').prop('disabled', true);
+                }
+                
+                $('#goalRed').text(current.GoalRedCnt);
+                $('#goalGreen').text(current.GoalGreenCnt);
+                $('#goalBlue').text(current.GoalBlueCnt);
+                $('#goalYellow').text(current.GoalYellowCnt);
+                
+                $('#currentRed').text(current.ProductRedCnt);
+                $('#currentGreen').text(current.ProductGreenCnt);
+                $('#currentBlue').text(current.ProductBlueCnt);
+                $('#currentYellow').text(current.ProductYellowCnt);
+                
+                totalErrorCnt = current.ErrorEdgeCnt + current.ErrorColorCnt + current.ErrorQrCnt + current.ErrorImageCnt;
+		$('#error-btn').text("오류 수량: " + totalErrorCnt );
+            }
+
+            $('#start-btn').click(function() {
+                event.preventDefault(); // 기본 동작 막기             
+                
+                const formData = {
+                    goalRed: $('#goalRed').text(),
+                    goalGreen: $('#goalGreen').text(),
+                    goalBlue: $('#goalBlue').text(),
+                    goalYellow: $('#goalYellow').text(),
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "/start_classification",
+                    data: JSON.stringify(formData),
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert('제품분류가 시작되었습니다');
+                        $('.action-btn').prop('disabled', true);
+                        $('.control-btn').prop('disabled', false);
+
+			socket.emit('send_serial_data', 'convayorStart');
+                    },
+                    error: function(error) {
+                        console.error('Error starting classification:', error);
+                    }
+                });
+            });
+            
+            $('#pause-btn').click(function() {
+                event.preventDefault(); // 기본 동작 막기
+                
+                const formData = {
+                    goalRed: $('#goalRed').text(),
+                    goalGreen: $('#goalGreen').text(),
+                    goalBlue: $('#goalBlue').text(),
+                    goalYellow: $('#goalYellow').text(),
+                };
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/pause_classification",
+                    data: "",
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert('제품분류가 중지 되었습니다');
+                        $('.action-btn').prop('disabled', false);
+                        $('.control-btn').prop('disabled', true);
+
+			socket.emit('send_serial_data', 'convayorStop');
+                    },
+                    error: function(error) {
+                        console.error('Error pause classification:', error);
+                    }
+                });
+            });
+
+            $('#finish-btn').click(function() {
+                event.preventDefault(); // 기본 동작 막기
+                
+                $.ajax({
+                    type: "POST",
+                    url: "/finish_classification",
+                    data: "",
+                    contentType: "application/json",
+                    success: function(response) {
+                        alert('제품분류가 완료 되었습니다');
+
+			socket.emit('send_serial_data', 'convayorFinish');
+
+			location.reload();
+                        //$('.action-btn').prop('disabled', false);
+                        //$('.control-btn').prop('disabled', true);
+                    },
+                    error: function(error) {
+                        console.error('Error finish classification:', error);
+                    }
+                });
+            });
+
+    });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="title">내 HMI 디스플레이 - User</div>
+        <nav>
+            <button onclick="goPage('/');">Home</button>
+            <button onclick="goPage('/admin');">Admin</button>
+        </nav>
+    </header>
+    <form id="classificationForm">
+        <div class="content">
+            <div class="channel-row">
+                <button type="button" class="channel-button red action-btn" onclick="changeCount(event, 'goalRed', -1)">-</button>
+                <div id="goalRed" class="value red">0</div>
+                <button type="button" class="channel-button red action-btn" onclick="changeCount(event, 'goalRed', 1)">+</button>
+                R 모드 수량: <div id="currentRed" class="value red">0</div>
+            </div>
+            <div class="channel-row">
+                <button type="button"  class="channel-button green action-btn" onclick="changeCount(event, 'goalGreen', -1)">-</button>
+                <div id="goalGreen" class="value green">0</div>
+                <button type="button"  class="channel-button green action-btn" onclick="changeCount(event, 'goalGreen', 1)">+</button>
+                G 모드 수량: <div id="currentGreen" class="value green">0</div>
+            </div>
+            <div class="channel-row">
+                <button type="button"  class="channel-button blue action-btn" onclick="changeCount(event, 'goalBlue', -1)">-</button>
+                <div id="goalBlue" class="value blue">0</div>
+                <button type="button"  class="channel-button blue action-btn" onclick="changeCount(event, 'goalBlue', 1)">+</button>
+                B 모드 수량: <div id="currentBlue" class="value blue">0</div>
+            </div>
+            <div class="channel-row">
+                <button type="button"  class="channel-button yellow action-btn" onclick="changeCount(event, 'goalYellow', -1)">-</button>
+                <div id="goalYellow" class="value yellow">0</div>
+                <button type="button"  class="channel-button yellow action-btn" onclick="changeCount(event, 'goalYellow', 1)">+</button>
+                Y 모드 수량: <div id="currentYellow" class="value yellow">0</div>
+            </div>
+        </div>
+        <div class="side-panel">
+            <button id="start-btn" type="button" class="start-btn action-btn">시작</button>
+            <button id="pause-btn" type="button" class="pause-btn control-btn">중지</button>
+            <button id="finish-btn" type="button" class="finish-btn control-btn">종료</button>
+	    <button id="error-btn" type="button" class="control-btn">오류 수량: <span id="errorCount">0</span></button>
+        </div> 
+    </form>
+</body>
+</html>

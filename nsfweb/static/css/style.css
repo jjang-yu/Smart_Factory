@@ -1,0 +1,108 @@
+/* style.css 파일 전체 내용 */
+
+/* 전역 스타일 */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    width: 800px; /* 화면 전체 너비 */
+    height: 480px; /* 화면 전체 높이 */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* 헤더 공통 스타일 */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* 헤더가 전체 너비를 차지하도록 설정 */
+    height: 80px;
+    padding: 0 20px;
+    background-color: #f3f3f3;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-title {
+    font-size: 24px;
+}
+
+.header-buttons {
+    display: flex;
+}
+
+.header-button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+}
+
+/* 메인 컨텐츠 스타일 */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Full width */
+    height: calc(100% - 80px); /* Full height minus header */
+    padding: 20px 0; /* Padding top and bottom */
+}
+
+/* 색상 설정 스타일 */
+.color-setting {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 700px; /* 콘텐츠 너비 */
+    margin: 10px 0; /* Margin top and bottom for each color setting */
+}
+
+.color-label {
+    margin-right: 20px; /* Space between label and the buttons */
+}
+
+.color-indicator {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.number-display {
+    margin: 0 20px; /* Space between number and buttons */
+}
+
+.color-button-minus,
+.color-button-plus {
+    padding: 10px 20px;
+    margin: 0 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid #ddd; /* Slight border for the buttons */
+    cursor: pointer;
+}
+
+/* Specific color styles for indicators and buttons */
+.color-indicator.red, .color-button-minus.red { background-color: #ff4d4d; }
+.color-button-plus.red { background-color: #4CAF50; }
+
+.color-indicator.green, .color-button-minus.green { background-color: #28a745; }
+.color-button-plus.green { background-color: #4CAF50; }
+
+.color-indicator.blue, .color-button-minus.blue { background-color: #007bff; }
+.color-button-plus.blue { background-color: #4CAF50; }
+
+.color-indicator.yellow, .color-button-minus.yellow { background-color: #ffeb3b; color: #333; /* 노란색 배경에 대한 글자색 변경 */ }
+.color-button-plus.yellow { background-color: #4CAF50; }
+
+/* ... 추가적인 스타일링이 필요한 경우 여기에 추가 ... */

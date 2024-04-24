@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 HMI 디스플레이</title>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <style>
+        body, html {
+            width: 800px;
+            height: 480px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f4f4f4;
+            overflow: hidden;
+        }
+        .container {
+            width: 100%;
+            text-align: center;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            width: 150px;
+            height: 80px;
+        }
+        .admin-button {
+            background-color: #2196F3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="title">
+            <h1>NSF - Smart Factory System</h1>
+        </div>
+        <div class="button-group">
+            <button onclick="goPage('/user');">User</button>
+            <button class="admin-button" onclick="goPage('/admin');">Admin</button>
+        </div>
+    </div>
+</body>
+</html>

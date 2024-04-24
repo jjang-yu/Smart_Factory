@@ -1,0 +1,65 @@
+body, html {
+    width: 800px;
+    height: 480px;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f4f4f4;
+}
+header {
+    height: 80px;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.title {
+    font-size: 24px;
+}
+nav button {
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    background-color: #4CAF50;
+    color: white;
+}
+.device-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4열 그리드 */
+    grid-template-rows: repeat(4, 1fr); /* 4행 그리드로 변경 */
+    gap: 8px; /* 요소들 사이의 간격 조정 */
+    place-items: center;
+    height: 80%; /* 높이 조정 */
+    padding: 10px; /* 컨테이너 내부 여백 추가 */
+}
+.device {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 40px; /* 원 모양 */
+    border: 2px solid #ddd; /* 경계선 추가 */
+    background-color: #ff0000; /* 연결 끊김 상태 색상 예시 */
+    color: white;
+    font-size: 0.8rem;
+    text-align: center;
+    overflow: hidden; /* 텍스트가 원 밖으로 나가지 않도록 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+    cursor: pointer;
+}
+.connected {
+    background-color: #4CAF50; /* 연결됨 */
+    color: white;
+}
+.disconnected {
+    background-color: #f44336; /* 연결 끊김 */
+    color: white;
+}
+.device-label {
+    margin-top: 5px;
+}
