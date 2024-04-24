@@ -1,0 +1,20 @@
+names:
+- B.
+- BLUE
+- E
+- GREEN
+- R
+- RED
+- Y
+- YELLOW
+- Z
+nc: 9
+roboflow:
+  license: CC BY 4.0
+  project: nsf_box1
+  url: https://universe.roboflow.com/testbaek/nsf_box1/dataset/3
+  version: 3
+  workspace: testbaek
+test: /dataset/test/images
+train: /dataset/train/images
+val: /dataset/valid/images
